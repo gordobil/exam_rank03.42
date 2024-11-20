@@ -14,14 +14,9 @@ int	ft_putstr(char *str)
 	int	i = 0;
 	int	count = 0;
 
-	if (str == NULL)
-	{
-		count = ft_putstr("(null)");
-		return (count);
-	}
 	while (str[i] != '\0')
 	{
-		count += ft_putchar(str[i]);
+		count = count + ft_putchar(str[i]);
 		i++;
 	}
 	return (count);
@@ -31,22 +26,20 @@ int	ft_putnbr(int n)
 {
 	int	count = 0;
 
-	if (n == -2147483648)
-		count = ft_putstr("-2147483648");
-	else if (n < 0)
+	if (n < 0)
 	{
-		count = ft_putchar('-');
-		count += ft_putnbr(-n);
+		count = count + ft_putchar('-');
+		count = count + ft_putnbr(n * -1);
 	}
 	else
 	{
 		if (n > 9)
 		{
-			count = ft_putnbr(n / 10);
-			count += ft_putnbr(n % 10);
+			count = count + ft_putnbr(n / 10);
+			count = count + ft_putnbr(n % 10);
 		}
 		else
-			count = ft_putchar(n + '0');
+			count = count + ft_putchar(n + '0');
 	}
 	return (count);
 }
@@ -57,15 +50,15 @@ int	ft_puthex(unsigned int n)
 
 	if (n >= 16)
 	{
-		count = ft_puthex(n / 16);
-		count += ft_puthex(n % 16);
+		count = count + ft_puthex(n / 16);
+		count = count + ft_puthex(n % 16);
 	}
 	else
 	{
 		if (n <= 9)
-			count = ft_putnbr(n);
+			count = count + ft_putnbr(n);
 		else
-			count = ft_putchar(n - 10 + 'a');
+			count = count + ft_putchar(n - 10 + 'a');
 	}
 	return (count);
 }
@@ -83,43 +76,42 @@ int	ft_printf(char *fst_arg, ...)
 		{
 			i++;
 			if (fst_arg[i] == 's')
-				count += ft_putstr(va_arg(arg_lst, char *));
+				count = count + ft_putstr(va_arg(arg_lst, char *));
 			else if (fst_arg[i] == 'd')
-				count += ft_putnbr(va_arg(arg_lst, int));
+				count = count + ft_putnbr(va_arg(arg_lst, int));
 			else if (fst_arg[i] == 'x')
-				count += ft_puthex(va_arg(arg_lst, unsigned int));
+				count = count + ft_puthex(va_arg(arg_lst, unsigned int));
 			else if (fst_arg[i] == '%')
-				count += ft_putchar(fst_arg[i]);
+				count = count + ft_putchar(fst_arg[i]);
 		}
 		else
-			count += ft_putchar(fst_arg[i]);
-		i++;
+			count = count + ft_putchar(fst_arg[i]);
+		i++;;
 	}
 	va_end(arg_lst);
 	return (count);
 }
 
-/* int	main(void)
+int	main(void)
 {
 	int	ft = 0;
 	int	og = 0;
-	char *str = NULL;
 
 	ft = ft_printf("ft: hola/\n");
 	og = printf("og: hola/\n");
 	printf ("ft: %d - og: %d/\n\n", ft, og);
 
-	ft = ft_printf("ft: <%s>/\n", str);
-	og = printf("og: <%s>/\n", str);
+	ft = ft_printf("ft: un string <%s>/\n", "abcdef123456");
+	og = printf("og: un string <%s>/\n", "abcdef123456");
 	printf ("ft: %d - og: %d/\n\n", ft, og);
 
-	ft = ft_printf("ft: %d/\n", 2345);
-	og = printf("og: %d/\n", 2345);
+	ft = ft_printf("ft: %d es el numero %d menos %d/\n", 2345, 103, 23);
+	og = printf("og: %d es el numero %d menos %d/\n", 2345, 103, 23);
 	printf ("ft: %d - og: %d\n\n", ft, og);
 
-	ft = ft_printf("ft: %d -> %x/\n", 429876, 429876);
-	og = printf("og: %d -> %x/\n", 429876, 429876);
+	ft = ft_printf("ft: el numero %d es %x en hex/\n", 429876, 429876);
+	og = printf("og: el numero %d es %x en hex/\n", 429876, 429876);
 	printf ("ft: %d - og: %d/\n", ft, og);
 
 	return (0);
-} */
+}
