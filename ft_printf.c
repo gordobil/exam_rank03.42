@@ -22,7 +22,7 @@ int	ft_putstr(char *str)
 	return (count);
 }
 
-int	ft_putnbr(int n)
+int	ft_putnbr(long int n)
 {
 	int	count = 0;
 
@@ -78,7 +78,7 @@ int	ft_printf(char *fst_arg, ...)
 			if (fst_arg[i] == 's')
 				count = count + ft_putstr(va_arg(arg_lst, char *));
 			else if (fst_arg[i] == 'd')
-				count = count + ft_putnbr(va_arg(arg_lst, int));
+				count = count + ft_putnbr(va_arg(arg_lst, long int));
 			else if (fst_arg[i] == 'x')
 				count = count + ft_puthex(va_arg(arg_lst, unsigned int));
 			else if (fst_arg[i] == '%')
@@ -97,7 +97,11 @@ int	main(void)
 	int	ft = 0;
 	int	og = 0;
 
-	ft = ft_printf("ft: hola/\n");
+	ft = ft_printf("%d %d %d\n", -1232345676546, 0, 98765);
+	og = printf("%ld %d %d\n", -1232345676546, 0, 98765);
+	printf ("ft: %d - og: %d/\n\n", ft, og);
+
+/* 	ft = ft_printf("ft: hola/\n");
 	og = printf("og: hola/\n");
 	printf ("ft: %d - og: %d/\n\n", ft, og);
 
@@ -111,7 +115,7 @@ int	main(void)
 
 	ft = ft_printf("ft: el numero %d es %x en hex/\n", 429876, 429876);
 	og = printf("og: el numero %d es %x en hex/\n", 429876, 429876);
-	printf ("ft: %d - og: %d/\n", ft, og);
+	printf ("ft: %d - og: %d/\n", ft, og); */
 
 	return (0);
 }
